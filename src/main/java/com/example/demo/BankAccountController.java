@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -97,8 +98,18 @@ public class BankAccountController implements ApplicationListener<ApplicationRea
      */
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+        // Gauge for the number of accounts in the bank
         Gauge.builder("account_count", theBank,
                 b -> b.values().size()).register(meterRegistry);
+        
+        // Gauge for the total amount of money in all accounts
+        Gauge.builder("bank_sum", theBank,
+                b -> b.values()
+                        .stream()
+                        .map(Account::getBalance)
+                        .mapToDouble(BigDecimal::doubleValue)
+                        .sum())
+                .register(meterRegistry);
     }
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "account not found")
