@@ -537,3 +537,5 @@ You already created AWS access keys earlier in this exercise. Now you need to ad
 * Configure the workflow to run `terraform apply` on pushes to main branch
 * Use the GitHub Secrets you created above for AWS credentials
 * Configure Terraform state properly using AWS S3 as a backend (with DynamoDB state locking if you're feeling adventurous!) 
+
+
