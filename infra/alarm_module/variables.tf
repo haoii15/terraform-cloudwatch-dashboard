@@ -1,6 +1,6 @@
 variable "threshold" {
   default = "750000000"
-  type = string
+  type    = string
 }
 
 variable "alarm_email" {
